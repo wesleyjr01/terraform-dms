@@ -1,0 +1,4 @@
+.terraform/
+
+# sensitive information
+terraform.tfstate*
