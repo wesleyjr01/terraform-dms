@@ -13,3 +13,7 @@ variable "instance_type" {
 variable "aws_region" {
   default = "us-west-2"
 }
+
+variable "environment" {
+  default = "staging"
+}
