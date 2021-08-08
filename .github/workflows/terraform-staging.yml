@@ -29,10 +29,19 @@ jobs:
       with:
         terraform_version: latest
 
+    - name: Setup Workspace
+      run: |
+        if [[ "${{github.ref}}" == "refs/heads/staging" ]]; then
+          echo "WORKSPACE=staging" >> $GITHUB_ENV
+        elif [[ "${{github.ref}}" == "refs/heads/production" ]]; then
+          echo "WORKSPACE=production" >> $GITHUB_ENV
+        fi
+        echo $WORKSPACE
+        
     - name: Variable and Backend Setup 
       run: |
-        cp tfvars/${{github.base_ref}}/variables.tf variables.tf
-        cp backends/${{github.base_ref}}/backend.tf backend.tf
+        cp tfvars/$WORKSPACE/variables.tf variables.tf
+        cp backends/$WORKSPACE/backend.tf backend.tf
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
