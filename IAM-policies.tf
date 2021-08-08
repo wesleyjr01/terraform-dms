@@ -26,7 +26,7 @@ resource "aws_iam_role" "role_glue_crawler_raw" {
             "s3:PutObject"
           ]
           Effect   = "Allow"
-          Resource = "*"
+          Resource = aws_s3_bucket.raw_bucket.arn
         },
       ]
     })
