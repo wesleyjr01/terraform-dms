@@ -1,9 +1,6 @@
-name: 'Terraform Staging'
+name: 'Terraform Plan staging'
 
 on:
-  push:
-    branches:
-    - staging
   pull_request:
     branches:
     - staging
@@ -31,11 +28,7 @@ jobs:
 
     - name: Setup Workspace
       run: |
-        if [[ "${{github.ref}}" == "refs/heads/staging" ]]; then
-          echo "WORKSPACE=staging" >> $GITHUB_ENV
-        elif [[ "${{github.ref}}" == "refs/heads/production" ]]; then
-          echo "WORKSPACE=production" >> $GITHUB_ENV
-        fi
+        echo "WORKSPACE=staging" >> $GITHUB_ENV
         echo $WORKSPACE
         
     - name: Variable and Backend Setup 
@@ -62,14 +55,6 @@ jobs:
     - name: Terraform Plan
       run: terraform plan
       continue-on-error: false
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
-
-    # Apply changes and update infrastructure
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
-      run: terraform apply -auto-approve
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
