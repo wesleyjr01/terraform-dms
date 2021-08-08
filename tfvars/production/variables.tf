@@ -18,7 +18,3 @@ variable "aws_region" {
 variable "environment" {
   default = "production"
 }
-
-variable "raw_bucket_name" {
-  default = "raw-bucket-${var.environment}-01123"
-}
