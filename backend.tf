@@ -6,8 +6,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "terraform-0123"
-    key    = "artifacts/"
-    region = "us-east-1"
+    bucket = "terraform-test-state1"
+    key    = "terraform.tfstate"
+    region = "us-west-2"
   }
 }
