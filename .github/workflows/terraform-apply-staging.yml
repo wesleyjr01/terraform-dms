@@ -1,10 +1,7 @@
-name: 'Terraform Staging'
+name: 'Terraform Apply staging'
 
 on:
   push:
-    branches:
-    - staging
-  pull_request:
     branches:
     - staging
 
@@ -29,10 +26,15 @@ jobs:
       with:
         terraform_version: latest
 
+    - name: Setup Workspace
+      run: |
+        echo "WORKSPACE=staging" >> $GITHUB_ENV
+        echo $WORKSPACE
+        
     - name: Variable and Backend Setup 
       run: |
-        cp tfvars/${{github.base_ref}}/variables.tf variables.tf
-        cp backends/${{github.base_ref}}/backend.tf backend.tf
+        cp tfvars/$WORKSPACE/variables.tf variables.tf
+        cp backends/$WORKSPACE/backend.tf backend.tf
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -59,7 +61,6 @@ jobs:
 
     # Apply changes and update infrastructure
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
       run: terraform apply -auto-approve
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}

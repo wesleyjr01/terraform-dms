@@ -1,12 +1,9 @@
-name: 'Terraform Production'
+name: 'Terraform Plan staging'
 
 on:
-  push:
-    branches:
-    - production
   pull_request:
     branches:
-    - production
+    - staging
 
 jobs:
   terraform:
@@ -29,17 +26,22 @@ jobs:
       with:
         terraform_version: latest
 
+    - name: Setup Workspace
+      run: |
+        echo "WORKSPACE=staging" >> $GITHUB_ENV
+        echo $WORKSPACE
+        
     - name: Variable and Backend Setup 
       run: |
-        cp tfvars/${{github.base_ref}}/variables.tf variables.tf
-        cp backends/${{github.base_ref}}/backend.tf backend.tf
+        cp tfvars/$WORKSPACE/variables.tf variables.tf
+        cp backends/$WORKSPACE/backend.tf backend.tf
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
@@ -54,13 +56,5 @@ jobs:
       run: terraform plan
       continue-on-error: false
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
-
-    # Apply changes and update infrastructure
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/production' && github.event_name == 'push'
-      run: terraform apply -auto-approve
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
