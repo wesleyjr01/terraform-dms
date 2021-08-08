@@ -6,6 +6,10 @@ variable "instance_name" {
 
 variable "instance_type" {
   description = "EC@ instance type"
-  type = string
-  default = "t2.nano"
+  type        = string
+  default     = "t2.nano"
+}
+
+variable "aws_region" {
+  default = "us-east-1"
 }
