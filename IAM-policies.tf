@@ -10,6 +10,15 @@ data "aws_iam_policy_document" "assume_glue_policy" {
   }
 }
 
+data "aws_iam_policy" "AWSGlueServiceRole" {
+  arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
+resource "aws_iam_role_policy_attachment" "sto-readonly-role-policy-attach" {
+  role       = aws_iam_role.role_glue_crawler_raw.name
+  policy_arn = data.aws_iam_policy.AWSGlueServiceRole.arn
+}
+
 resource "aws_iam_role" "role_glue_crawler_raw" {
   name               = "role_glue_crawler_raw"
   assume_role_policy = data.aws_iam_policy_document.assume_glue_policy.json # (not shown)
@@ -26,7 +35,7 @@ resource "aws_iam_role" "role_glue_crawler_raw" {
             "s3:PutObject"
           ]
           Effect   = "Allow"
-          Resource = "*"
+          Resource = aws_s3_bucket.raw_bucket.arn
         },
       ]
     })
