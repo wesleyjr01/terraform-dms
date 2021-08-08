@@ -24,6 +24,6 @@ resource "aws_glue_crawler" "crawler_raw_bucket" {
   )
 
   s3_target {
-    path = "s3://${var.raw_bucket_name}"
+    path = "s3://${aws_s3_bucket.raw_bucket.bucket}"
   }
 }
