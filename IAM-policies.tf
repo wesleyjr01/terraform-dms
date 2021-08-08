@@ -21,7 +21,7 @@ resource "aws_iam_role_policy_attachment" "sto-readonly-role-policy-attach" {
 
 resource "aws_iam_role" "role_glue_crawler_raw" {
   name               = "role_glue_crawler_raw"
-  assume_role_policy = data.aws_iam_policy_document.assume_glue_policy.json # (not shown)
+  assume_role_policy = data.aws_iam_policy_document.assume_glue_policy.json
 
   inline_policy {
     name = "acess_s3_bucket_policy"
@@ -31,8 +31,7 @@ resource "aws_iam_role" "role_glue_crawler_raw" {
       Statement = [
         {
           Action = [
-            "s3:GetObject",
-            "s3:PutObject"
+            "*"
           ]
           Effect   = "Allow"
           Resource = aws_s3_bucket.raw_bucket.arn
