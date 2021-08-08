@@ -2,7 +2,7 @@ resource "aws_glue_crawler" "crawler_raw_bucket" {
   database_name = "raw_database1"
   schedule      = "cron(0 1 * * * *)"
   name          = "events_crawler_raw_bucket_${var.environment}"
-  role          = aws_iam_role.glue_crawlers_raw.arn
+  role          = aws_iam_role.role_glue_crawler_raw.arn
   tags = {
     Context     = "Crawl all data from raw_bucket"
     Environment = var.environment
