@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "raw_bucket" {
-  bucket = "raw-bucket-${var.environment}-01123"
+  bucket = var.raw_bucket_name
   acl    = "private"
   versioning {
     enabled = false

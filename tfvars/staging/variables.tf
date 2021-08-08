@@ -17,3 +17,8 @@ variable "aws_region" {
 variable "environment" {
   default = "staging"
 }
+
+
+variable "raw_bucket_name" {
+  default = "raw-bucket-${var.environment}-01123"
+}

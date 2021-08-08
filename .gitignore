@@ -2,3 +2,6 @@
 
 # sensitive information
 terraform.tfstate*
+
+*.txt
+*.png
