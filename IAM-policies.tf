@@ -31,10 +31,11 @@ resource "aws_iam_role" "role_glue_crawler_raw" {
       Statement = [
         {
           Action = [
-            "*"
+            "s3:GetObject",
+            "s3:PutObject"
           ]
           Effect   = "Allow"
-          Resource = aws_s3_bucket.raw_bucket.arn
+          Resource = "${aws_s3_bucket.raw_bucket.arn}*"
         },
       ]
     })
