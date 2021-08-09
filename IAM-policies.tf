@@ -14,7 +14,7 @@ data "aws_iam_policy" "AWSGlueServiceRole" {
   arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
 }
 
-resource "aws_iam_role_policy_attachment" "sto-readonly-role-policy-attach" {
+resource "aws_iam_role_policy_attachment" "glue-role-policy-attach" {
   role       = aws_iam_role.role_glue_crawler_raw.name
   policy_arn = data.aws_iam_policy.AWSGlueServiceRole.arn
 }
