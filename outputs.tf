@@ -1,9 +1,14 @@
-# output "ec2_instance_id" {
-#   description = "ID of the EC2 instance"
-#   value       = aws_instance.app_server.id
-# }
+output "source_db_user" {
+  value     = jsondecode(data.aws_secretsmanager_secret_version.postgres_db_info.secret_string)["username"]
+  sensitive = true
+}
 
-# output "ec2_instance_public_ip" {
-#   description = "Public IP address of the EC2 instance"
-#   value       = aws_instance.app_server.public_ip
-# }
+output "source_db_engine" {
+  value     = jsondecode(data.aws_secretsmanager_secret_version.postgres_db_info.secret_string)["engine"]
+  sensitive = true
+}
+
+output "source_db_host" {
+  value     = jsondecode(data.aws_secretsmanager_secret_version.postgres_db_info.secret_string)["host"]
+  sensitive = true
+}
