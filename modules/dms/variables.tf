@@ -13,3 +13,11 @@ variable "subnet_group_ids" {
 variable "security_group" {
   type = string
 }
+
+variable "source_secrets_string" {
+  type = string
+}
+
+variable "raw_bucket_name" {
+  type = string
+}

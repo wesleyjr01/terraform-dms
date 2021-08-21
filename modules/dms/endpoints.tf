@@ -1,20 +1,31 @@
-# # Create a new endpoint
-# resource "aws_dms_endpoint" "test" {
-#   certificate_arn             = "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"
-#   database_name               = "test"
-#   endpoint_id                 = "test-dms-endpoint-tf"
-#   endpoint_type               = "source"
-#   engine_name                 = "postgres"
-#   extra_connection_attributes = ""
-#   kms_key_arn                 = "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"
-#   password                    = "test"
-#   port                        = 3306
-#   server_name                 = "test"
-#   ssl_mode                    = "none"
+# Create a new endpoint
+resource "aws_dms_endpoint" "source_postgres" {
+  database_name = "test_db"
+  endpoint_id   = "${var.environment}-postgres-source"
+  endpoint_type = "source"
+  engine_name   = "postgres"
+  port          = jsondecode(var.source_secrets_string)["port"]
+  server_name   = jsondecode(var.source_secrets_string)["host"]
+  username      = jsondecode(var.source_secrets_string)["username"]
+  password      = jsondecode(var.source_secrets_string)["password"]
+  ssl_mode      = "none"
 
-#   tags = {
-#     Name = "test"
-#   }
+  tags = {
+    dbInstanceIdentifier = jsondecode(var.source_secrets_string)["dbInstanceIdentifier"]
+  }
+}
 
-#   username = "test"
-# }
+resource "aws_dms_endpoint" "target_s3_raw_bucket" {
+  endpoint_id                 = "${var.environment}-s3-raw-target"
+  endpoint_type               = "target"
+  engine_name                 = "s3"
+  extra_connection_attributes = "dataFormat=parquet;addColumnName=true;timestampColumnName=dms_load_timestamp;cdcMinFileSize=100;cdcMaxBatchInterval=180;cdcInsertsAndUpdates=true;includeOpForFullLoad=True"
+  s3_settings {
+    bucket_folder = "postgres-db"
+    bucket_name   = var.raw_bucket_name
+  }
+
+  tags = {
+    dbInstanceIdentifier = jsondecode(var.source_secrets_string)["dbInstanceIdentifier"]
+  }
+}
