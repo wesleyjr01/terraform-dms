@@ -78,6 +78,7 @@ resource "aws_iam_role" "dms_s3_role" {
       },
     ]
   })
+  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonDMSCloudWatchLogsRole"]
 
   inline_policy {
     name = "allow-s3-raw-dms"

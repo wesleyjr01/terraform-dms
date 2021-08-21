@@ -24,7 +24,6 @@ resource "aws_dms_endpoint" "target_s3_raw_bucket" {
     bucket_folder           = "postgres-db"
     bucket_name             = var.raw_bucket_name
     service_access_role_arn = aws_iam_role.dms_s3_role.arn
-
   }
 
   tags = {
