@@ -23,4 +23,5 @@ module "dms" {
   security_group        = var.security_group
   source_secrets_string = module.secrets_manager.source_postgres_secret_string
   raw_bucket_name       = module.s3_buckets.raw_bucket_name
+  raw_bucket_arn        = module.s3_buckets.raw_bucket_arn
 }

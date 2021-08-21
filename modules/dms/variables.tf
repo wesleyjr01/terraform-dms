@@ -21,3 +21,7 @@ variable "source_secrets_string" {
 variable "raw_bucket_name" {
   type = string
 }
+
+variable "raw_bucket_arn" {
+  type = string
+}
