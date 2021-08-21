@@ -1,7 +1,12 @@
 .terraform/
+tfplan
+./backend.tf
 
 # sensitive information
 terraform.tfstate*
 
 *.txt
 *.png
+
+# temporary files for local testing
+temp.*
