@@ -21,8 +21,10 @@ resource "aws_dms_endpoint" "target_s3_raw_bucket" {
   engine_name                 = "s3"
   extra_connection_attributes = "dataFormat=parquet;addColumnName=true;timestampColumnName=dms_load_timestamp;cdcMinFileSize=100;cdcMaxBatchInterval=180;cdcInsertsAndUpdates=true;includeOpForFullLoad=True"
   s3_settings {
-    bucket_folder = "postgres-db"
-    bucket_name   = var.raw_bucket_name
+    bucket_folder           = "postgres-db"
+    bucket_name             = var.raw_bucket_name
+    service_access_role_arn = aws_iam_role.dms_cloudwatch_logs_role.arn
+
   }
 
   tags = {
