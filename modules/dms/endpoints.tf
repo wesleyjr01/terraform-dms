@@ -15,18 +15,18 @@ resource "aws_dms_endpoint" "source_postgres" {
   }
 }
 
-resource "aws_dms_endpoint" "target_s3_raw_bucket" {
-  endpoint_id   = "${var.environment}-s3-raw-target"
-  endpoint_type = "target"
-  engine_name   = "s3"
-  # extra_connection_attributes = "dataFormat=parquet;addColumnName=true;timestampColumnName=dms_load_timestamp;cdcMinFileSize=100;cdcMaxBatchInterval=180;cdcInsertsAndUpdates=true;includeOpForFullLoad=True"
-  extra_connection_attributes = "dataFormat=parquet;"
-  s3_settings {
-    bucket_name             = var.raw_bucket_name
-    service_access_role_arn = aws_iam_role.dms_s3_role.arn
-  }
+# resource "aws_dms_endpoint" "target_s3_raw_bucket" {
+#   endpoint_id   = "${var.environment}-s3-raw-target"
+#   endpoint_type = "target"
+#   engine_name   = "s3"
+#   # extra_connection_attributes = "dataFormat=parquet;addColumnName=true;timestampColumnName=dms_load_timestamp;cdcMinFileSize=100;cdcMaxBatchInterval=180;cdcInsertsAndUpdates=true;includeOpForFullLoad=True"
+#   extra_connection_attributes = "dataFormat=parquet;"
+#   s3_settings {
+#     bucket_name             = var.raw_bucket_name
+#     service_access_role_arn = aws_iam_role.dms_s3_role.arn
+#   }
 
-  tags = {
-    targetBucket = var.raw_bucket_name
-  }
-}
+#   tags = {
+#     targetBucket = var.raw_bucket_name
+#   }
+# }
