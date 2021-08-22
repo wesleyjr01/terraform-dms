@@ -1,6 +1,6 @@
 # Create a new endpoint
 resource "aws_dms_endpoint" "source_postgres" {
-  database_name = "test_db"
+  database_name = "postgres"
   endpoint_id   = "${var.environment}-postgres-source"
   endpoint_type = "source"
   engine_name   = "postgres"
