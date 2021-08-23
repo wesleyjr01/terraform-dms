@@ -1,1 +1,1 @@
-dataFormat=parquet;addColumnName=true;timestampColumnName=dms_cdc_timestamp;cdcMinFileSize=100;cdcMaxBatchInterval=180;cdcInsertsAndUpdates=true;includeOpForFullLoad=True;
+dataFormat=parquet;addColumnName=true;timestampColumnName=dms_cdc_timestamp;cdcMinFileSize=100;cdcMaxBatchInterval=500;cdcInsertsAndUpdates=true;includeOpForFullLoad=True;
