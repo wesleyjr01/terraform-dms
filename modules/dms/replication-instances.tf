@@ -18,6 +18,10 @@ resource "aws_dms_replication_instance" "replication_instance_t2small" {
   vpc_security_group_ids = [
     var.security_group
   ]
+
+  depends_on = [
+    aws_iam_role.dms_vpc_role,
+  ]
 }
 
 # Create a new replication subnet group
