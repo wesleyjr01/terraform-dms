@@ -19,7 +19,7 @@ resource "aws_dms_endpoint" "target_s3_raw_bucket" {
   endpoint_id                 = "${var.environment}-s3-raw-target"
   endpoint_type               = "target"
   engine_name                 = "s3"
-  extra_connection_attributes = extra_connection_attributes = file("${path.module}/extra_connection_attributes_s3_target.csv")
+  extra_connection_attributes = file("${path.module}/extra_connection_attributes_s3_target.csv")
   s3_settings {
     bucket_name             = var.raw_bucket_name
     service_access_role_arn = aws_iam_role.dms_s3_role.arn
